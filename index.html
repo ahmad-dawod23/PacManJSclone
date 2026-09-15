@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>PAC-MAN 1980 Arcade - Retro Browser Edition</title>
+  <meta name="description" content="Play the authentic 1980 retro arcade Pac-Man clone in pure HTML5 Canvas with synthesized 8-bit sound effects, authentic ghost AI, and responsive controls.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="arcade-wrapper">
+    <!-- Header Marquee -->
+    <header class="arcade-header">
+      <div class="logo-container">
+        <span class="logo-text">PAC-MAN</span>
+      </div>
+      <div class="header-controls">
+        <button id="btnSound" class="arcade-btn" title="Toggle Sound (M)">
+          <span id="soundIcon">🔊</span> SOUND
+        </button>
+        <button id="btnPause" class="arcade-btn" title="Pause Game (P)">
+          <span id="pauseIcon">⏸️</span> PAUSE
+        </button>
+        <button id="btnCrt" class="arcade-btn active" title="Toggle CRT Filter">
+          <span>📺</span> CRT
+        </button>
+      </div>
+    </header>
+
+    <!-- Score HUD -->
+    <div class="score-board">
+      <div class="score-item">
+        <span class="score-label">1UP</span>
+        <span id="playerScore" class="score-val">00</span>
+      </div>
+      <div class="score-item">
+        <span class="score-label high-label">HIGH SCORE</span>
+        <span id="highScore" class="score-val">10000</span>
+      </div>
+      <div class="score-item">
+        <span class="score-label">LEVEL</span>
+        <span id="levelDisplay" class="score-val">1</span>
+      </div>
+    </div>
+
+    <!-- Cabinet Canvas Bezel -->
+    <main class="cabinet-bezel">
+      <canvas id="gameCanvas" width="448" height="576"></canvas>
+      <div id="crtFilter" class="crt-overlay"></div>
+
+      <!-- Start / Attract Overlay Screen -->
+      <div id="startScreen" class="overlay-screen">
+        <h1 class="overlay-title">PAC-MAN</h1>
+        <div class="ghost-roster">
+          <div class="roster-row">
+            <span class="roster-icon blinky"></span>
+            <span class="roster-name" style="color: #ff0000;">BLINKY</span>
+            <span class="roster-nickname">"SHADOW"</span>
+          </div>
+          <div class="roster-row">
+            <span class="roster-icon pinky"></span>
+            <span class="roster-name" style="color: #ffb8ff;">PINKY</span>
+            <span class="roster-nickname">"SPEEDY"</span>
+          </div>
+          <div class="roster-row">
+            <span class="roster-icon inky"></span>
+            <span class="roster-name" style="color: #00ffff;">INKY</span>
+            <span class="roster-nickname">"BASHFUL"</span>
+          </div>
+          <div class="roster-row">
+            <span class="roster-icon clyde"></span>
+            <span class="roster-name" style="color: #ffb852;">CLYDE</span>
+            <span class="roster-nickname">"POKEY"</span>
+          </div>
+        </div>
+        <p class="overlay-subtitle">POINTS: PELLET 10 &bull; ENERGIZER 50<br>GHOSTS 200, 400, 800, 1600</p>
+        <button id="btnStartGame" class="start-btn">START GAME</button>
+      </div>
+
+      <!-- Pause Screen Overlay -->
+      <div id="pauseScreen" class="overlay-screen hidden">
+        <h2 class="overlay-title">PAUSED</h2>
+        <p class="overlay-subtitle">PRESS P OR RESUME TO CONTINUE</p>
+        <button id="btnResumeGame" class="start-btn">RESUME</button>
+      </div>
+
+      <!-- Game Over Screen Overlay -->
+      <div id="gameOverScreen" class="overlay-screen hidden">
+        <h2 class="overlay-title" style="color: #ff3333;">GAME OVER</h2>
+        <p id="finalScoreDisplay" class="overlay-subtitle">FINAL SCORE: 0</p>
+        <button id="btnRestartGame" class="start-btn">PLAY AGAIN</button>
+      </div>
+    </main>
+
+    <!-- Controls Panel & Keyboard Hints -->
+    <div class="controls-panel">
+      <div class="keys-hint">
+        CONTROLS: <span>ARROW KEYS</span> / <span>WASD</span> / <span>SWIPE</span><br>
+        PAUSE: <span>P</span> &bull; MUTE: <span>M</span>
+      </div>
+
+      <!-- On-Screen Virtual D-Pad (Touch / Mobile) -->
+      <div class="d-pad-container" id="dpad">
+        <button class="d-btn d-up" id="dpadUp" aria-label="Up">▲</button>
+        <button class="d-btn d-left" id="dpadLeft" aria-label="Left">◀</button>
+        <button class="d-btn d-right" id="dpadRight" aria-label="Right">▶</button>
+        <button class="d-btn d-down" id="dpadDown" aria-label="Down">▼</button>
+      </div>
+    </div>
+
+    <footer class="arcade-footer">
+      100% Canvas & Web Audio API &bull; Authentic Ghost AI State Machine
+    </footer>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>

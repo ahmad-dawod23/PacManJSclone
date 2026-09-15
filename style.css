@@ -1,0 +1,408 @@
+/* ==========================================================================
+   PAC-MAN ARCADE - MODERN RETRO STYLESHEET
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Outfit:wght@400;600;800&display=swap');
+
+:root {
+  --arcade-bg: #06060c;
+  --cabinet-edge: #15152a;
+  --cabinet-glow: rgba(33, 33, 255, 0.35);
+  --neon-blue: #2121ff;
+  --pac-yellow: #ffff00;
+  --ghost-red: #ff0000;
+  --ghost-pink: #ffb8ff;
+  --ghost-cyan: #00ffff;
+  --ghost-orange: #ffb852;
+  --pellet-color: #ffb8ae;
+  --text-white: #ffffff;
+  --hud-gray: #dedede;
+  --panel-bg: rgba(14, 14, 28, 0.85);
+  --border-glow: 0 0 15px rgba(33, 80, 255, 0.6);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  background-color: var(--arcade-bg);
+  color: var(--text-white);
+  font-family: 'Press Start 2P', monospace, sans-serif;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+}
+
+/* Background Retro Grid Ambient */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 50% 30%, rgba(33, 33, 255, 0.12) 0%, transparent 65%),
+    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 100% 100%, 32px 32px, 32px 32px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Main Container */
+.arcade-wrapper {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px 16px 24px;
+  width: 100%;
+  max-width: 680px;
+}
+
+/* Header & Marquee */
+.arcade-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 448px;
+  margin-bottom: 8px;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-text {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  background: linear-gradient(180deg, #ffff33 0%, #ff8800 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 0 8px rgba(255, 200, 0, 0.6));
+}
+
+.header-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.arcade-btn {
+  background: #1a1a35;
+  border: 1px solid #3d3d75;
+  color: #a0a0ff;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.6rem;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.arcade-btn:hover {
+  background: #2a2a55;
+  color: #ffffff;
+  border-color: #5555aa;
+  box-shadow: 0 0 8px rgba(80, 80, 255, 0.4);
+}
+
+.arcade-btn:active {
+  transform: scale(0.96);
+}
+
+.arcade-btn.active {
+  background: #222266;
+  border-color: #00ffff;
+  color: #00ffff;
+  box-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+}
+
+/* Score Board */
+.score-board {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 448px;
+  margin-bottom: 6px;
+  padding: 4px 8px;
+  background: rgba(10, 10, 20, 0.8);
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.score-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.score-label {
+  font-size: 0.6rem;
+  letter-spacing: 1px;
+  color: #ff3333;
+  margin-bottom: 4px;
+}
+
+.high-label {
+  color: #00ffff;
+}
+
+.score-val {
+  font-size: 0.75rem;
+  color: #ffffff;
+  letter-spacing: 1px;
+}
+
+/* Cabinet & Canvas Frame */
+.cabinet-bezel {
+  position: relative;
+  background: #020208;
+  padding: 6px;
+  border-radius: 12px;
+  border: 2px solid #202050;
+  box-shadow: 
+    0 0 25px rgba(33, 33, 255, 0.35),
+    inset 0 0 15px rgba(0, 0, 0, 0.8);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Canvas Screen */
+#gameCanvas {
+  display: block;
+  background-color: #000000;
+  border-radius: 6px;
+  width: 448px;
+  height: 576px;
+  max-width: 94vw;
+  height: auto;
+  aspect-ratio: 28 / 36;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* CRT Scanline Overlay (Optionally toggleable) */
+.crt-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.25) 50%
+  ), linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.03),
+    rgba(0, 255, 0, 0.01),
+    rgba(0, 0, 255, 0.03)
+  );
+  background-size: 100% 3px, 6px 100%;
+  pointer-events: none;
+  opacity: 0.7;
+  border-radius: 10px;
+}
+
+/* In-Game Overlay Screens (Start, Pause, Game Over) */
+.overlay-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 5, 0.88);
+  backdrop-filter: blur(4px);
+  z-index: 10;
+  padding: 20px;
+  text-align: center;
+  transition: opacity 0.2s ease;
+}
+
+.overlay-screen.hidden {
+  display: none;
+  pointer-events: none;
+}
+
+.overlay-title {
+  font-size: 1.4rem;
+  color: var(--pac-yellow);
+  text-shadow: 0 0 10px rgba(255, 255, 0, 0.7);
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+
+.overlay-subtitle {
+  font-size: 0.65rem;
+  color: #ffb8ae;
+  line-height: 1.8;
+  margin-bottom: 24px;
+}
+
+.ghost-roster {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+  text-align: left;
+  background: rgba(20, 20, 45, 0.7);
+  padding: 14px 18px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.roster-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.6rem;
+}
+
+.roster-icon {
+  width: 16px;
+  height: 16px;
+  border-radius: 8px 8px 0 0;
+  position: relative;
+  display: inline-block;
+}
+
+.roster-icon.blinky { background-color: var(--ghost-red); }
+.roster-icon.pinky { background-color: var(--ghost-pink); }
+.roster-icon.inky { background-color: var(--ghost-cyan); }
+.roster-icon.clyde { background-color: var(--ghost-orange); }
+
+.roster-name {
+  color: #ffffff;
+  min-width: 75px;
+}
+
+.roster-nickname {
+  color: #8888cc;
+}
+
+.start-btn {
+  background: linear-gradient(180deg, #ffcc00 0%, #ff8800 100%);
+  border: 2px solid #ffffff;
+  color: #000000;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.8rem;
+  padding: 12px 24px;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 0 15px rgba(255, 200, 0, 0.7);
+  animation: pulseButton 1.2s infinite alternate ease-in-out;
+}
+
+.start-btn:hover {
+  filter: brightness(1.2);
+  transform: scale(1.05);
+}
+
+@keyframes pulseButton {
+  from { box-shadow: 0 0 8px rgba(255, 200, 0, 0.5); }
+  to { box-shadow: 0 0 20px rgba(255, 200, 0, 0.9); }
+}
+
+/* Mobile & Touch Controls */
+.controls-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 448px;
+  margin-top: 14px;
+}
+
+.keys-hint {
+  font-size: 0.55rem;
+  color: #7777aa;
+  text-align: center;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.keys-hint span {
+  color: #ffffff;
+  background: #1a1a35;
+  padding: 2px 5px;
+  border-radius: 3px;
+  border: 1px solid #333366;
+}
+
+/* Touch D-Pad */
+.d-pad-container {
+  display: grid;
+  grid-template-columns: repeat(3, 56px);
+  grid-template-rows: repeat(3, 56px);
+  gap: 6px;
+  margin-top: 6px;
+  display: none; /* Shown via media query on touch devices */
+}
+
+.d-btn {
+  background: #181830;
+  border: 2px solid #383868;
+  border-radius: 8px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.1s;
+  box-shadow: 0 3px 0 #0d0d1c;
+}
+
+.d-btn:active, .d-btn.pressed {
+  background: #383878;
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #0d0d1c;
+  color: #ffff00;
+  border-color: #ffff00;
+}
+
+.d-up { grid-column: 2; grid-row: 1; }
+.d-left { grid-column: 1; grid-row: 2; }
+.d-right { grid-column: 3; grid-row: 2; }
+.d-down { grid-column: 2; grid-row: 3; }
+
+/* Show D-Pad on touch screens or small viewports */
+@media (hover: none) and (pointer: coarse), (max-width: 768px) {
+  .d-pad-container {
+    display: grid;
+  }
+}
+
+/* Footer info */
+.arcade-footer {
+  margin-top: 14px;
+  font-size: 0.5rem;
+  color: #555580;
+  text-align: center;
+}
